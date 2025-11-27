@@ -21,8 +21,8 @@ module.exports = [
         rules: {
             ...js.configs.recommended.rules,
             ...prettier.rules,
-            "no-console": "warn",
-            "no-unused-vars": "warn",
+            "no-console": "off",
+            "no-unused-vars": "off",
             "prefer-const": "error",
             eqeqeq: "error",
             "no-var": "error",
