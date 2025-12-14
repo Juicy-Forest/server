@@ -21,7 +21,7 @@ authController.post('/register',
     async (req, res) => {
         try {
             const token = await register(req.body.username, req.body.email, req.body.password);
-            res.status(201).json({accessToken: token.accessToken, essage: "user logged in."});
+            res.status(201).json({accessToken: token.accessToken, message: "user logged in."});
         } catch (error) {
             console.log(error);
             res.status(400).json({error:error.message})
