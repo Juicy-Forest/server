@@ -1,7 +1,8 @@
 import express from 'express';
 import { createServer } from 'http'
-import { WebSocketServer } from 'ws';
-require('dotenv').config();
+import WebSocket, { WebSocketServer } from 'ws';
+import dotenv from 'dotenv'
+dotenv.config();
 
 const app = express();
 const server = createServer(app);
@@ -26,6 +27,7 @@ wss.on('connection', function connection(ws, req) {
   ws.on('message', function message(load) {
     const data = JSON.parse(load);
     const text = `user_${data.id}: ${data.message}`;
+    console.log(`message: ${data.message}`)
     const response = JSON.stringify({
       type: 'text',
       message: text
