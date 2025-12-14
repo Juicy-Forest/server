@@ -47,7 +47,7 @@ async function login(email, password) {
         throw new Error('Account is locked. Try again later.');
     }
 
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.hashedPassword);
     if (!match) {
         throw new Error('Incorrect email or password');
     }
@@ -90,7 +90,7 @@ async function updateUser(id, data) {
     }
 
     if (data.password) {
-        user.password = await bcrypt.hash(data.password, 10);
+        user.hashedPassword = await bcrypt.hash(data.password, 10);
     }
 
     await user.save();
