@@ -19,11 +19,9 @@ export default function getSensorData() {
 parser.on("data", function (data) {
   const sensorData = JSON.parse(data);
   
-  return(sensorData);
-
-  //console.log("day:", sensorData.day);
-  //console.log("temperature:", sensorData.temperature);
-  //console.log("humidity:", sensorData.humidity);
+  console.log("day:", sensorData.day);
+  console.log("temperature:", sensorData.temperature);
+  console.log("humidity:", sensorData.humidity);
   });
 }
 
