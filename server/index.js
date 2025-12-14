@@ -7,12 +7,12 @@ const initDatabase = require("./configs/database");
 const webConstants = require('./web-constants')
 
 
-app.use(cors({credentials: true, origin: '*', allowHeaders: ['Content-Type, X-Authorization']}))
+app.use(cors({credentials: true, origin: 'http://localhost:5173', allowHeaders: ['Content-Type, X-Authorization']}))
 app.use(express.json());
 app.use(authMiddleware);
 app.use(router)
 initDatabase()
 .then(() => {
-    app.listen(webConstants.PORT, () => console.log(`Server listening on http://localhost:${webConstants.PORT}`))
+    app.listen(webConstants.PORT, "0.0.0.0", () => console.log(`Server listening on http://localhost:${webConstants.PORT}`))
 })
 .catch((err) => console.log(err));
