@@ -13,6 +13,6 @@ app.use(authMiddleware);
 app.use(router)
 initDatabase()
 .then(() => {
-    app.listen(webConstants.PORT, "0.0.0.0", () => console.log(`Server listening on http://localhost:${webConstants.PORT}`))
+    app.listen(webConstants.PORT, () => console.log(`Server listening on http://localhost:${webConstants.PORT}`))
 })
 .catch((err) => console.log(err));
