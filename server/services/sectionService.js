@@ -1,6 +1,6 @@
 const SectionInfo = require("../models/Section");
 
-const getSectionByGarden = async function (gardenId) {
+const getSectionsByGarden = async function (gardenId) {
     return SectionInfo.find({ garden: gardenId }).populate("garden").populate("assignedTo");
 }
 
