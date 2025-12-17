@@ -12,6 +12,10 @@ const services = {
         url: process.env.SERVER_SERVICE_URL || 'http://localhost:3031',
         routes: ['/users', '/inventory', '/garden', '/section', '/tasks']
     },
+    sensors: {
+        url: process.env.SENSORS_SERVICE_URL || 'http://localhost:3034',
+        routes: ['/sensors']
+    },
 };
 
 // Apply CORS globally - adjust origin as needed for your client
