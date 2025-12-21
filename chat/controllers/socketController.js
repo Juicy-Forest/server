@@ -23,27 +23,16 @@ export async function handleConnection(wss, ws, req) {
     return;
   }
 
+  let messages = await getMessages();
+  messages = messages.map(message => formatMessage(message.senderUsername, message.content, message.senderId, message._id, message.channelId))
+  ws.send(JSON.stringify(messages));
   console.log(`User connected: ${ws.user.username}`);
 
   ws.on('message', async (message) => {
     try {
       const result = JSON.parse(message);
-
-      if (result.type === "message") {
-        await saveMessage(ws.id, ws.user.username, result.message, result.channelId);
-        broadcastMessage(wss, ws.user, result.message);
-      } else {
-        let messages = await getMessages(result.channelId);
-        console.log(messages);
-        messages = messages.map(message => formatMessage(message.senderUsername, message.content, message.senderId, message._id))
-        ws.send(JSON.stringify(messages));
-        // messages.forEach((message) => {
-          // const messageObj = formatMessage(message.senderUsername, message.content, message.senderId, message._id);
-          // const jsonMessage = JSON.stringify(messageObj);
-
-          // ws.send(jsonMessage);
-        // })
-      }
+      await saveMessage(ws.id, ws.user.username, result.content, result.channelId);
+      broadcastMessage(wss, ws.user, result.content, result.channelId);
     } catch (error) {
       console.error('Failed to process message', error);
     }
