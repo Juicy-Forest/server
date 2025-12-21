@@ -18,6 +18,11 @@ const messageSchema = new Schema(
       trim: true,
       maxlength: 3000,
     },
+    channelId: {
+      type: String,
+      required: true,
+      trim: true,
+    },
   },
   {
     timestamps: true,

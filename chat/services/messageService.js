@@ -1,10 +1,11 @@
 import { WebSocket } from 'ws';
 import Message from '../models/Message.js';
 
-export function formatMessage(username, text, userId = null) {
+export function formatMessage(username, text, userId, messageId) {
   return {
     type: 'text',
     payload: {
+      _id: messageId,
       content: text,
       author: {
         _id: userId,
@@ -28,14 +29,15 @@ export function broadcastMessage(wss, sender, text) {
   });
 }
 
-export async function saveMessage(senderId, senderUsername, content) {
+export async function saveMessage(senderId, senderUsername, content, channelId) {
   return await Message.create({
     senderId,
     senderUsername,
     content,
+    channelId
   });
 }
 
-export async function getMessages() {
-  return await Message.find({});
+export async function getMessages(channelId) {
+  return await Message.find({ channelId: channelId});
 }
