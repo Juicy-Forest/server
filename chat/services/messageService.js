@@ -43,6 +43,11 @@ export async function getMessagesByChannelId(channelId) {
   return await Message.find({ channelId: channelId});
 }
 
+export async function getFormattedMessages(){
+  const messages = await getMessages();
+  return messages.map(message => formatMessage(message.senderUsername, message.content, message.senderId, message._id, message.channelId));
+}
+
 export async function getMessages() {
   return await Message.find({});
 }

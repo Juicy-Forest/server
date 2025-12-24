@@ -1,11 +1,11 @@
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
-import { broadcastMessage, formatMessage, getMessages, saveMessage } from '../services/messageService.js';
+import { broadcastMessage, formatMessage, getFormattedMessages, getMessages, saveMessage } from '../services/messageService.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'JWT-SECRET-TOKEN';
 
 export async function handleConnection(wss, ws, req) {
-  // 1. Authentication
+  // Authentication
   const cookies = cookie.parse(req.headers.cookie || '');
   const token = cookies['auth-token'];
 
@@ -23,8 +23,8 @@ export async function handleConnection(wss, ws, req) {
     return;
   }
 
-  let messages = await getMessages();
-  messages = messages.map(message => formatMessage(message.senderUsername, message.content, message.senderId, message._id, message.channelId))
+  // Sending chat history to connected client
+  let messages = await getFormattedMessages();
   ws.send(JSON.stringify(messages));
   console.log(`User connected: ${ws.user.username}`);
 
@@ -38,7 +38,7 @@ export async function handleConnection(wss, ws, req) {
     }
   });
 
-  // 4. Handle Disconnect
+  // Handle disconnect
   ws.on('close', () => {
     console.log(`User disconnected: ${ws.user.username}`);
   });
