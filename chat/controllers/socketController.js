@@ -31,8 +31,13 @@ export async function handleConnection(wss, ws, req) {
   ws.on('message', async (message) => {
     try {
       const result = JSON.parse(message);
-      let savedMessage = await saveMessage(ws.id, ws.user.username, result.content, result.channelId);
-      broadcastMessage(wss, ws.user, result.content, savedMessage._id, result.channelId);
+      if (result.type === 'message') {
+        let savedMessage = await saveMessage(ws.id, ws.user.username, result.content, result.channelId);
+        broadcastMessage(wss, ws.user, result.content, savedMessage._id, result.channelId);
+      }
+      else if(result.type === 'activity'){
+        ws.send(JSON.stringify({type: 'activity', payload: 'someone is typing'}))
+      }
     } catch (error) {
       console.error('Failed to process message', error);
     }
