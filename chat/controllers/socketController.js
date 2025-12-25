@@ -1,6 +1,7 @@
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
-import { broadcastMessage, formatMessage, getFormattedMessages, getMessages, saveMessage } from '../services/messageService.js';
+import { broadcastActivity, broadcastMessage, formatMessage, getFormattedMessages, getMessages, saveMessage } from '../services/messageService.js';
+import { WebSocket } from 'ws';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'JWT-SECRET-TOKEN';
 
@@ -35,8 +36,8 @@ export async function handleConnection(wss, ws, req) {
         let savedMessage = await saveMessage(ws.id, ws.user.username, result.content, result.channelId);
         broadcastMessage(wss, ws.user, result.content, savedMessage._id, result.channelId);
       }
-      else if(result.type === 'activity'){
-        ws.send(JSON.stringify({type: 'activity', payload: 'someone is typing'}))
+      else if (result.type === 'activity') {
+        broadcastActivity(wss, ws);
       }
     } catch (error) {
       console.error('Failed to process message', error);

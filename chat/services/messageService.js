@@ -30,6 +30,14 @@ export function broadcastMessage(wss, sender, content, messageId,channelId) {
   });
 }
 
+export function broadcastActivity(wss, ws){
+        wss.clients.forEach((client) => {
+          if (client !== ws && client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({ type: 'activity', payload: ws.user.username }))
+          }
+        });
+}
+
 export async function saveMessage(senderId, senderUsername, content, channelId) {
   return await Message.create({
     senderId: senderId,
