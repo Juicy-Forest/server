@@ -60,5 +60,5 @@ export async function getFormattedMessages() {
 }
 
 export async function getMessages() {
-  return await Message.find({}).populate(['author', 'channel']);
+  return await Message.find({}).populate('channel');
 }

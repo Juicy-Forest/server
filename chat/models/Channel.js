@@ -7,14 +7,9 @@ const channelSchema = new Schema(
       required: true,
       trim: true,
     },
-    description: {
-      type: String,
-      trim: true,
-    },
     gardenId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'Garden',
       index: true,
     },
   },

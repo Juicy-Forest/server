@@ -1,8 +1,7 @@
 import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 import { broadcastActivity, broadcastMessage, getFormattedMessages, saveMessage } from '../services/messageService.js';
-import mongoose from 'mongoose';
-import Channel from '../models/Channel.js';
+import { getFormattedChannels } from '../services/channelService.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'JWT-SECRET-TOKEN';
 
@@ -25,26 +24,30 @@ export async function handleConnection(wss, ws, req) {
     return;
   }
 
-  let channel = await Channel.findOne({ name: "general" });
-  const gardenId = new mongoose.Types.ObjectId();
-  if (!channel) {
-    channel = await Channel.create({
-      name: "general",
-      description: "Test channel for development",
-      gardenId: gardenId,
-    });
-  }
+  // let channel = await Channel.findOne({ name: "general" });
+  // const gardenId = new mongoose.Types.ObjectId();
+  // if (!channel) {
+  //   channel = await Channel.create({
+  //     name: "general",
+  //     gardenId: gardenId,
+  //   });
+  // }
 
   // Sending chat history to connected client
   let messages = await getFormattedMessages();
-  ws.send(JSON.stringify(messages));
+  let channels = await getFormattedChannels();
+  const initialReqObj = {
+    type: 'initialLoad',
+    messages: messages,
+    channels: channels
+  }
+
+  ws.send(JSON.stringify(initialReqObj));
   console.log(`User connected: ${ws.user.username}`);
 
   ws.on('message', async (message) => {
     try {
       const result = JSON.parse(message);
-      result.channelId = channel._id;
-      result.channelName = channel.name;
       if (result.type === 'message') {
         let savedMessage = await saveMessage(ws.id, ws.user.username, result);
         broadcastMessage(wss, ws.user, savedMessage);
