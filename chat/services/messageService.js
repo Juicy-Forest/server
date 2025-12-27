@@ -14,7 +14,7 @@ export function formatNewMessage(username, userId, message) {
         username: username,
         avatarColor: message.author.avatarColor,
       },
-      timestamp: new Date().toISOString()
+      timestamp: message.createdAt 
     }
   };
 }
@@ -32,7 +32,7 @@ export function formatMessage(message) {
         username: message.author.username,
         avatarColor: message.author.avatarColor,
       },
-      timestamp: new Date().toISOString()
+      timestamp: message.createdAt 
     }
   };
 }
