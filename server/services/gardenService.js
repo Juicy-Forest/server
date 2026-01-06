@@ -131,6 +131,21 @@ async function deleteGarden(id, userId) {
     await Garden.findByIdAndDelete(id);
 }
 
+const removeMember = async (gardenId, memberId, userId) => {
+    const garden = await Garden.findById(gardenId);
+    if (!garden) {
+        throw new Error('Garden not found');
+    }
+    if (garden.owner.toString() !== userId.toString()) {
+        throw new Error('Only owner can remove members');
+    }
+    if (!garden.members.includes(memberId)) {
+        throw new Error('Member not found in garden');
+    }
+    garden.members = garden.members.filter(m => m.toString() !== memberId.toString());
+    return await garden.save();
+};
+
 module.exports = {
     createGarden,
     getAllGardens,
@@ -141,4 +156,5 @@ module.exports = {
     leaveGarden,
     updateGarden,
     deleteGarden,
+    removeMember
 };
