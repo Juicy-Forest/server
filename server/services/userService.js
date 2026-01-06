@@ -62,6 +62,16 @@ async function getUserByUsername(username) {
     return await User.findOne({ username: username });
 }
 
+async function updateUserPassword(userId, newPassword) {
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    user.hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.save();
+}
+
 function createToken(user) {
     const payload = {
         _id: user._id,
@@ -85,5 +95,6 @@ module.exports = {
     logout,
     validateToken,
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    updateUserPassword
 }
