@@ -104,6 +104,8 @@ async function deleteUser(id) {
         throw new Error('User not found');
     }
     await User.findByIdAndDelete(id);
+}
+
 function getRandomPastelColor() {
   const pastelColors = [
     '#FFB3BA', // light pink
@@ -138,8 +140,6 @@ function createToken(user) {
         accessToken: jwt.sign(payload, webConstants['JWT-SECRET'])
     }
 }
-
-
 
 module.exports = {
     register,
