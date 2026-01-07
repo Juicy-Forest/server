@@ -158,6 +158,7 @@ async function updateUsername(userId, newUsername) {
 
     user.username = newUsername;
     await user.save();
+    return createToken(user);
 }
 
 function createToken(user) {
