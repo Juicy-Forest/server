@@ -17,6 +17,7 @@ const userSchema = new Schema({
         minlength: [6, 'Password should have at least 6 characters long'],
     },
     avatarColor: {
+        required: true,
         type: String,
     }
 });
