@@ -1,5 +1,5 @@
 const gardenController = require('express').Router();
-const { createGarden, getAllGardens, getGardensByUserId, getGardenById, joinGarden, joinGardenByCode, leaveGarden, updateGarden, deleteGarden } = require('../services/gardenService');
+const { createGarden, getAllGardens, getGardensByUserId, getGardenById, joinGarden, joinGardenByCode, leaveGarden, updateGarden, deleteGarden, removeMember } = require('../services/gardenService');
 const { parseError } = require('../util/parser');
 
 gardenController.get('/', async (req, res) => {
@@ -141,5 +141,26 @@ gardenController.post('/join', async (req, res) => {
         }
     }
 });
+
+gardenController.post('/:id/removeMember', async (req, res) => {
+    try {
+        const { memberId } = req.body;
+        if (!memberId) {
+            return res.status(400).json({ message: 'Member ID is required' });
+        }
+        const garden = await removeMember(req.params.id, memberId, req.user._id);
+        res.status(200).json(garden.toObject());
+    } catch (error) {
+        if (error.message.includes('not found')) {
+            res.status(404).json({ message: error.message });
+        } else if (error.message.includes('Only owner')) {
+            res.status(403).json({ message: error.message });
+        } else {
+            res.status(400).json({ message: error.message });
+        }
+    }
+});
+
+
 
 module.exports = gardenController;

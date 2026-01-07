@@ -124,6 +124,43 @@ function getRandomPastelColor() {
   return pastelColors[randomIndex];
 }
 
+async function getUserByEmail(email) {
+    return await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
+}
+
+async function updateUserPassword(userId, newPassword) {
+
+    const user = await getUserById(userId);
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    user.hashedPassword = await bcrypt.hash(newPassword, 10);
+    await user.save();
+}
+
+async function updateEmail(userId, newEmail) {
+    const user = await getUserById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    user.email = newEmail;
+    await user.save();
+}
+
+async function updateUsername(userId, newUsername) {
+    const user = await getUserById(userId);
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    user.username = newUsername;
+    await user.save();
+    return createToken(user);
+}
+
 function createToken(user) {
     const payload = {
         _id: user._id,
@@ -147,5 +184,9 @@ module.exports = {
     logout,
     validateToken,
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    getUserByEmail,
+    updateUserPassword,
+    updateEmail,
+    updateUsername
 }
