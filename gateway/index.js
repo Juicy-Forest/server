@@ -8,14 +8,18 @@ const PORT = process.env.PORT || 3030;
 
 // Configuration for microservices
 const services = {
-  server: {
-    url: process.env.SERVER_SERVICE_URL || 'http://localhost:3031',
-    routes: ['/users', '/inventory', '/garden', '/section', '/tasks']
-  },
-  chat: {
+    server: {
+        url: process.env.SERVER_SERVICE_URL || 'http://localhost:3031',
+        routes: ['/users', '/inventory', '/garden', '/section', '/tasks']
+    },
+    chat: {
     url: process.env.CHAT_SERVICE_URL || 'http://localhost:3033',
     routes: ['/channel']
-  },
+    },
+    sensors: {
+        url: process.env.SENSORS_SERVICE_URL || 'http://localhost:3034',
+        routes: ['/sensors']
+    },
 };
 
 // Apply CORS globally - adjust origin as needed for your client
