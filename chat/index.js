@@ -22,6 +22,8 @@ const server = app.listen(PORT, () => {
   console.log(`Chat microservice running on http://localhost:${PORT}`);
 });
 
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
 
 const wss = new WebSocketServer({server});
 

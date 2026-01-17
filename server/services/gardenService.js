@@ -105,9 +105,7 @@ async function updateGarden(id, data, userId) {
     if (data.maxMembers) { // wont be 0 so works like this
         garden.maxMembers = data.maxMembers;
     }
-    console.log(data.grid)
     if("grid" in data) {
-        console.log("Reaching here")
         garden.grid = data.grid
     }
 

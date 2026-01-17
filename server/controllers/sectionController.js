@@ -21,9 +21,7 @@ sectionController.get("/:gardenId", async (req, res) => {
 sectionController.get("/:sectionId", async (req, res) => {
     try {
         const section = await getSectionById(req.params.sectionId);
-        console.log("Retrieved section:", section)
         if (!section) {
-            console.log("No section foud, returning error")
             return res.status(404).json({ error: "Not found." });
         }
 
@@ -39,9 +37,7 @@ sectionController.post("/:gardenId", async (req, res) => {
             ...req.body,
             garden: req.params.gardenId,
         };
-        console.log('Creating a section...')
         const created = await createSection(data);
-        console.log("Created section:", created)
         res.status(201).json(created);
     } catch (error) {
         console.log(error);
