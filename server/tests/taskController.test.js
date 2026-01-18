@@ -84,7 +84,7 @@ describe('Tasks Controller', () => {
             const response = await request(app).delete('/tasks/1');
 
             expect(response.status).toBe(204);
-            expect(response.text).toBe(""); // .end() sends no body
+            expect(response.text).toBe(''); // .end() sends no body
         });
     });
 

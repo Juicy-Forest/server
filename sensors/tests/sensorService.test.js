@@ -24,7 +24,6 @@ jest.unstable_mockModule('../models/Sensor.js', () => ({
 
 // 2. Dynamically import the modules AFTER the mocks are defined
 const { SerialPort } = await import('serialport');
-const { ReadlineParser } = await import('@serialport/parser-readline');
 const { default: Sensor } = await import('../models/Sensor.js');
 const { startListeningOnSerialPort, getSensorData, postSensorData } = await import('../services/sensorService.js');
 
@@ -83,7 +82,7 @@ describe('Sensor Service', () => {
             const dataCall = mockParserInstance.on.mock.calls.find(call => call[0] === 'data');
             
             if (!dataCall) {
-                throw new Error("Data handler was not registered on the parser");
+                throw new Error('Data handler was not registered on the parser');
             }
             
             const dataHandler = dataCall[1];

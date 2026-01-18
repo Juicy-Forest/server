@@ -7,7 +7,9 @@
     "start": "nodemon index.js",
     "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest",
     "test:watch": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --watch",
-    "test:coverage": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --coverage"
+    "test:coverage": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "keywords": [],
   "author": "",
@@ -25,7 +27,10 @@
     "ws": "^8.19.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "cross-env": "^10.1.0",
+    "eslint": "^9.39.2",
+    "globals": "^17.0.0",
     "supertest": "^7.2.2"
   }
 }
